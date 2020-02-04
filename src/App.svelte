@@ -108,7 +108,6 @@
 
 	const draw = () => {
 		resetDrawing();
-		console.log(state);
 		
 		Object.entries(image_config.buttons).forEach(([button,setting])=>{
 			// console.log(`drawing ${button}`);
