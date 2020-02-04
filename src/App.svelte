@@ -1,30 +1,186 @@
 <script>
-	export let name;
+	import { onMount } from "svelte"
+	export let controller_icon;
+	export let image_config;
+	console.log(image_config);
+	
+	const maxAlpha = 0.9;
+	const axisRadius = 18;
+	const buttonRadius = 10;
+	const baseColor = "black";
+
+	let canvas;
+	let ctx;
+	let svg;
+
+	let state = {
+		buttons: {
+			"A" : 1,
+			"B" : 1,
+		},
+		axis: {
+			"LX": 0,
+			"LY": 0,
+			"RX": 0,
+			"RY": 0,
+		}
+	}
+
+	const resetDrawing = () => {
+		ctx.restore();
+		ctx.clearRect(0, 0, canvas.width, canvas.height)
+		ctx.drawImage(svg,0,0)
+		ctx.save();
+	}
+
+	onMount(()=>{
+		ctx = canvas.getContext("2d");
+		svg = new Image();
+		svg.src = controller_icon
+		svg.onload = () => {
+			canvas.height = svg.height;
+			canvas.width = svg.width;
+			resetDrawing();
+			console.log(svg);
+		}
+		console.log(canvas);
+		poll();
+	})
+
+
+	let gamepad_config = {
+		button_config: { 
+			0:"A",
+			1:"B",
+			2:"X",
+			3:"Y",
+			4:"LEFT_SHOULDER",
+			5:"RIGHT_SHOULDER",
+			8:"BACK",
+			9:"START",
+			10:"LEFT_THUMB",
+			11:"RIGHT_THUMB",
+			12:"DPAD_UP",
+			13:"DPAD_DOWN",
+			14:"DPAD_LEFT",
+			15:"DPAD_RIGHT",
+			16:"GUIDE",
+			17:"START",
+		},
+		axis_config: [
+			{
+				target: "LX" ,
+				inverted: false,
+				source: { type: "axis", index: 0},
+			},
+
+			{
+				target: "LY" ,
+				inverted: true,
+				source: { type: "axis", index: 1},
+			},
+
+			{
+				target: "RX" ,
+				inverted: false,
+				source: { type: "axis", index: 2},
+			},
+
+			{
+				target: "RY" ,
+				inverted: true,
+				source: { type: "axis", index: 3},
+			},
+			
+			{
+				target: "LT" ,
+				inverted: false,
+				source: { type: "button", index: 6},
+			},
+
+			{
+				target: "RT" ,
+				inverted: false,
+				source: { type: "button", index: 7},
+			},
+		],
+	}
+
+	const draw = () => {
+		resetDrawing();
+		console.log(state);
+		
+		Object.entries(image_config.buttons).forEach(([button,setting])=>{
+			// console.log(`drawing ${button}`);
+			drawButton(setting,state.buttons[button]);
+		})
+
+		// Object.entries(state.buttons).forEach(([key,val])=>{
+		// 	drawButton(image_config.buttons[key],val);
+		// })
+
+		drawDualAxis(image_config.axis.L,state.axis.LX,state.axis.LY)		
+		drawDualAxis(image_config.axis.R,state.axis.RX,state.axis.RY)
+
+		Object.entries(image_config.axis).forEach(([button,setting])=>{
+			if(button != "L" && button !="R") {
+				// console.log(`drawing ${button}`);
+				drawButton(setting,state.axis[button])
+			}
+		})
+	}
+
+	const drawButton = (setting,value) => {
+		value = value? value: 0;
+		const {x,y} = setting;
+		ctx.globalAlpha = maxAlpha * value
+		ctx.fillStyle = setting.color ? setting.color : baseColor;
+		ctx.beginPath();
+		ctx.ellipse(x,y,buttonRadius,buttonRadius,0,0,Math.PI*2);
+		ctx.fill();
+		ctx.closePath();
+	}
+
+	const drawDualAxis = (setting, dx, dy) => {
+		const {x,y} = setting;
+		ctx.globalAlpha = maxAlpha
+		ctx.fillStyle = baseColor;
+		ctx.beginPath();
+		ctx.ellipse(x+dx*axisRadius,y+dy*axisRadius,buttonRadius,buttonRadius,0,0,Math.PI*2);
+		ctx.fill();
+		ctx.closePath();	
+	}
+
+	const update = (gamepad) => {
+		Object.keys(gamepad_config.button_config).forEach(button=>{
+			state.buttons[gamepad_config.button_config[button]] = gamepad.buttons[button].value
+		})
+		gamepad_config.axis_config.forEach(setting=>{
+        	let value = setting.source.type == "axis" ? gamepad.axes[setting.source.index] : (setting.source.type == "button" ? gamepad.buttons[setting.source.index].value : 0)
+			state.axis[setting.target] = value;
+		})
+		// state.axis.L = [state.axis.LX,state.axis.LY]
+		// state.axis.R = [state.axis.RX,state.axis.RY]
+		draw();
+	}
+
+	const poll = () => {
+		setInterval(()=>{
+			let g = navigator.getGamepads()
+			let gamepads = [...Array(g.length).keys()].map(i=>g[i])			
+			let gamepad = gamepads[0]
+			if(gamepad) {
+				update(gamepad)
+			}
+		},30)
+	}
+
 </script>
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
-
+<canvas bind:this={canvas}/>
+<button on:click={()=>{draw()}}></button>
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
+	canvas {
+		border: 1px solid black;
 	}
 </style>

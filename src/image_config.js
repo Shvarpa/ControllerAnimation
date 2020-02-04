@@ -1,0 +1,25 @@
+export default {
+    buttons: {
+        "A": { x:230, y:134, color: "green" },
+        "B": { x:251, y:110, color: "red" },
+        "X": { x:209, y:110, color: "blue" },
+        "Y": { x:230, y:87, color: "yellow" },
+        "LEFT_SHOULDER": { x: 80, y: 55, color:"gray"},
+        "RIGHT_SHOULDER": { x: 221, y: 55, color:"gray"},
+        "BACK": { x: 129, y: 112 },
+        "START": { x: 171, y: 112 },
+        "LEFT_THUMB": { x: 68, y: 110 },
+        "RIGHT_THUMB": { x: 190, y: 162 },
+        "DPAD_UP": { x: 110, y: 141 },
+        "DPAD_DOWN": { x: 110, y: 181 },
+        "DPAD_LEFT": { x: 90, y: 161 },
+        "DPAD_RIGHT": { x: 130, y: 161 },
+        "GUIDE": { x: 150, y: 76 },
+    },
+    axis: {
+        "L": { x: 68, y: 110 },
+        "R": { x: 190, y: 162 },
+        "LT": { x: 80, y: 28, style:"circle"},
+        "RT": { x: 221, y: 28, style:"circle"},
+    },
+}
