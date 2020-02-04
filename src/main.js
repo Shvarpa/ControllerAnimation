@@ -6,6 +6,12 @@ const app = new App({
 	props: {
 		controller_icon: 'x360.svg',
 		image_config,
+		size: {
+			// width: 700*1.35,
+			// height: 700,
+			width: 700,
+			height: 700 * 0.74,
+		}
 	}
 });
 

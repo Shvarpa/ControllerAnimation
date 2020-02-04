@@ -3,10 +3,13 @@
 	export let controller_icon;
 	export let image_config;
 	// console.log(image_config);
-	
+	export let size = undefined;
+
 	const maxAlpha = 0.9;
-	const axisRadius = 18;
-	const buttonRadius = 10;
+	const axisRadiusScale = 0.05;
+	const buttonRadiusScale = 0.035;
+	let axisRadius;
+	let buttonRadius;
 	const baseColor = "black";
 
 	let canvas;
@@ -34,10 +37,19 @@
 	onMount(()=>{
 		ctx = canvas.getContext("2d");
 		svg = new Image();
+		
 		svg.src = controller_icon
 		svg.onload = () => {
-			canvas.height = svg.height;
-			canvas.width = svg.width;
+			console.log(svg.height);
+			if(size) {
+				canvas.height = size.height;
+				canvas.width = size.width;
+				buttonRadius = canvas.width * buttonRadiusScale
+				axisRadius = canvas.width * axisRadiusScale
+			} else {
+				canvas.height = svg.height;
+				canvas.width = svg.width;
+			}
 			resetDrawing();
 			// console.log(svg);
 		}
@@ -133,17 +145,19 @@
 		ctx.globalAlpha = maxAlpha * value
 		ctx.fillStyle = setting.color ? setting.color : baseColor;
 		ctx.beginPath();
-		ctx.ellipse(x,y,buttonRadius,buttonRadius,0,0,Math.PI*2);
+		ctx.ellipse(x*size.width,y*size.height,buttonRadius,buttonRadius,0,0,Math.PI*2);
 		ctx.fill();
 		ctx.closePath();
 	}
 
 	const drawDualAxis = (setting, dx, dy) => {
 		const {x,y} = setting;
-		ctx.globalAlpha = maxAlpha
-		ctx.fillStyle = baseColor;
+		ctx.globalAlpha = maxAlpha * 0.5
+		ctx.fillStyle = setting.color ? setting.color : baseColor;
 		ctx.beginPath();
-		ctx.ellipse(x+dx*axisRadius,y+dy*axisRadius,buttonRadius,buttonRadius,0,0,Math.PI*2);
+		ctx.ellipse(x*size.width+dx*axisRadius,y*size.height+dy*axisRadius,buttonRadius,buttonRadius,0,0,Math.PI*2);
+		console.log(x*size.width+dx*axisRadius,y*size.height+dy*axisRadius);
+		
 		ctx.fill();
 		ctx.closePath();	
 	}
