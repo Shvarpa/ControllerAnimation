@@ -2,7 +2,7 @@
 	import { onMount } from "svelte"
 	export let controller_icon;
 	export let image_config;
-	console.log(image_config);
+	// console.log(image_config);
 	
 	const maxAlpha = 0.9;
 	const axisRadius = 18;
@@ -15,8 +15,6 @@
 
 	let state = {
 		buttons: {
-			"A" : 1,
-			"B" : 1,
 		},
 		axis: {
 			"LX": 0,
@@ -41,9 +39,9 @@
 			canvas.height = svg.height;
 			canvas.width = svg.width;
 			resetDrawing();
-			console.log(svg);
+			// console.log(svg);
 		}
-		console.log(canvas);
+		// console.log(canvas);
 		poll();
 	})
 
