@@ -1,12 +1,12 @@
 <script>
 	import { onMount } from "svelte"
-	export let controller_icon;
+	export let controller_icon_src;
 	export let image_config;
 	// console.log(image_config);
 	export let size = undefined;
 
 	const maxAlpha = 0.9;
-	const axisRadiusScale = 0.05;
+	const axisRadiusScale = 0.08;
 	const buttonRadiusScale = 0.035;
 	let axisRadius;
 	let buttonRadius;
@@ -15,6 +15,7 @@
 	let canvas;
 	let ctx;
 	let svg;
+	let aspect;
 
 	let state = {
 		buttons: {
@@ -38,22 +39,22 @@
 		ctx = canvas.getContext("2d");
 		svg = new Image();
 		
-		svg.src = controller_icon
+		svg.src = controller_icon_src
 		svg.onload = () => {
-			console.log(svg.height);
+			// let box = svg.viewBox.baseVal;
+			// aspect = box.width / box.height;
+			aspect = svg.width / svg.height;
 			if(size) {
-				canvas.height = size.height;
-				canvas.width = size.width;
-				buttonRadius = canvas.width * buttonRadiusScale
-				axisRadius = canvas.width * axisRadiusScale
+				canvas.height = size;
+				canvas.width = size * aspect;
+				buttonRadius = canvas.height * buttonRadiusScale
+				axisRadius = canvas.height * axisRadiusScale
 			} else {
 				canvas.height = svg.height;
-				canvas.width = svg.width;
+				canvas.width = svg.height * aspect;
 			}
 			resetDrawing();
-			// console.log(svg);
 		}
-		// console.log(canvas);
 		poll();
 	})
 
@@ -145,7 +146,7 @@
 		ctx.globalAlpha = maxAlpha * value
 		ctx.fillStyle = setting.color ? setting.color : baseColor;
 		ctx.beginPath();
-		ctx.ellipse(x*size.width,y*size.height,buttonRadius,buttonRadius,0,0,Math.PI*2);
+		ctx.ellipse(x*canvas.width,y*canvas.height,buttonRadius,buttonRadius,0,0,Math.PI*2);
 		ctx.fill();
 		ctx.closePath();
 	}
@@ -155,8 +156,8 @@
 		ctx.globalAlpha = maxAlpha * 0.5
 		ctx.fillStyle = setting.color ? setting.color : baseColor;
 		ctx.beginPath();
-		ctx.ellipse(x*size.width+dx*axisRadius,y*size.height+dy*axisRadius,buttonRadius,buttonRadius,0,0,Math.PI*2);
-		console.log(x*size.width+dx*axisRadius,y*size.height+dy*axisRadius);
+		ctx.ellipse(x*canvas.width+dx*axisRadius,y*canvas.height+dy*axisRadius,buttonRadius,buttonRadius,0,0,Math.PI*2);
+		console.log(x*canvas.width+dx*axisRadius,y*canvas.height+dy*axisRadius);
 		
 		ctx.fill();
 		ctx.closePath();	
