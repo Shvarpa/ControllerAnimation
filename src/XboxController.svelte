@@ -4,7 +4,7 @@
     import xbox_image_config from "./resources/xbox_image_config";
     
 
-    export let button_config = {
+    export let controller_config = {
 		button_config: { 
 			0:"A",
 			1:"B",
@@ -67,4 +67,4 @@
     export let size = undefined;
 </script>
 
-<Controller bind:this={controller}	controller_icon_src={xbox_svg} image_config={xbox_image_config} {size} {button_config} poll/>
+<Controller bind:this={controller}	controller_icon_src={xbox_svg} image_config={xbox_image_config} {size} {controller_config} poll/>

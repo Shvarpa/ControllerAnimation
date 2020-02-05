@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from "svelte"
 
-	export let button_config;
+	export let controller_config;
 	export let controller_icon_src;
 	export let image_config;
 	export let size = undefined;
@@ -107,10 +107,10 @@
 	}
 
 	const update = (gamepad) => {
-		Object.keys(button_config.button_config).forEach(button=>{
-			state.buttons[button_config.button_config[button]] = gamepad.buttons[button].value
+		Object.keys(controller_config.button_config).forEach(button=>{
+			state.buttons[controller_config.button_config[button]] = gamepad.buttons[button].value
 		})
-		button_config.axis_config.forEach(setting=>{
+		controller_config.axis_config.forEach(setting=>{
         	let value = setting.source.type == "axis" ? gamepad.axes[setting.source.index] : (setting.source.type == "button" ? gamepad.buttons[setting.source.index].value : 0)
 			state.axis[setting.target] = value;
 		})
