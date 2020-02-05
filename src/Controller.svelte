@@ -1,10 +1,12 @@
 <script>
 	import { onMount } from "svelte"
+
+	export let button_config;
 	export let controller_icon_src;
 	export let image_config;
-	export let size;
+	export let size = undefined;
 	export let poll = false;
-
+	
 	const maxAlpha = 0.9;
 	const axisRadiusScale = 0.08;
 	const buttonRadiusScale = 0.035;
@@ -44,15 +46,13 @@
 			// let box = svg.viewBox.baseVal;
 			// aspect = box.width / box.height;
 			aspect = svg.width / svg.height;
-			if(size) {
-				canvas.height = size;
-				canvas.width = size * aspect;
-				buttonRadius = canvas.height * buttonRadiusScale
-				axisRadius = canvas.height * axisRadiusScale
-			} else {
-				canvas.height = svg.height;
-				canvas.width = svg.height * aspect;
+			if(!size) {
+				size = svg.height
 			}
+			canvas.height = size;
+			canvas.width = size * aspect;
+			buttonRadius = canvas.height * buttonRadiusScale
+			axisRadius = canvas.height * axisRadiusScale
 			resetDrawing();
 		}
 		if (poll) {
@@ -60,70 +60,11 @@
 		}
 	})
 
-
-	let gamepad_config = {
-		button_config: { 
-			0:"A",
-			1:"B",
-			2:"X",
-			3:"Y",
-			4:"LEFT_SHOULDER",
-			5:"RIGHT_SHOULDER",
-			8:"BACK",
-			9:"START",
-			10:"LEFT_THUMB",
-			11:"RIGHT_THUMB",
-			12:"DPAD_UP",
-			13:"DPAD_DOWN",
-			14:"DPAD_LEFT",
-			15:"DPAD_RIGHT",
-			16:"GUIDE",
-			17:"START",
-		},
-		axis_config: [
-			{
-				target: "LX" ,
-				inverted: false,
-				source: { type: "axis", index: 0},
-			},
-
-			{
-				target: "LY" ,
-				inverted: true,
-				source: { type: "axis", index: 1},
-			},
-
-			{
-				target: "RX" ,
-				inverted: false,
-				source: { type: "axis", index: 2},
-			},
-
-			{
-				target: "RY" ,
-				inverted: true,
-				source: { type: "axis", index: 3},
-			},
-			
-			{
-				target: "LT" ,
-				inverted: false,
-				source: { type: "button", index: 6},
-			},
-
-			{
-				target: "RT" ,
-				inverted: false,
-				source: { type: "button", index: 7},
-			},
-		],
-	}
-
 	const draw = () => {
 		resetDrawing();
 		
 		Object.entries(image_config.buttons).forEach(([button,setting])=>{
-			// console.log(`drawing ${button}`);
+			// console.log(`drawing ${button}:${state.buttons[button]}`);
 			drawButton(setting,state.buttons[button]);
 		})
 
@@ -159,17 +100,17 @@
 		ctx.fillStyle = setting.color ? setting.color : baseColor;
 		ctx.beginPath();
 		ctx.ellipse(x*canvas.width+dx*axisRadius,y*canvas.height+dy*axisRadius,buttonRadius,buttonRadius,0,0,Math.PI*2);
-		console.log(x*canvas.width+dx*axisRadius,y*canvas.height+dy*axisRadius);
+		// console.log(x*canvas.width+dx*axisRadius,y*canvas.height+dy*axisRadius);
 		
 		ctx.fill();
 		ctx.closePath();	
 	}
 
 	const update = (gamepad) => {
-		Object.keys(gamepad_config.button_config).forEach(button=>{
-			state.buttons[gamepad_config.button_config[button]] = gamepad.buttons[button].value
+		Object.keys(button_config.button_config).forEach(button=>{
+			state.buttons[button_config.button_config[button]] = gamepad.buttons[button].value
 		})
-		gamepad_config.axis_config.forEach(setting=>{
+		button_config.axis_config.forEach(setting=>{
         	let value = setting.source.type == "axis" ? gamepad.axes[setting.source.index] : (setting.source.type == "button" ? gamepad.buttons[setting.source.index].value : 0)
 			state.axis[setting.target] = value;
 		})
