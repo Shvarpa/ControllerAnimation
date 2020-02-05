@@ -6,10 +6,11 @@
 	export let image_config;
 	export let size = undefined;
 	export let poll = false;
-	
+	export let gamepad = undefined;
+
 	const maxAlpha = 0.9;
-	const axisRadiusScale = 0.08;
-	const buttonRadiusScale = 0.035;
+	export let axisRadiusScale = 0.08;
+	export let buttonRadiusScale = 0.035;
 	const baseColor = "black";
 
 	let axisRadius;
@@ -29,6 +30,7 @@
 			"RY": 0,
 		}
 	}
+	let loaded = false;
 
 	const resetDrawing = () => {
 		ctx.restore();
@@ -58,6 +60,7 @@
 		if (poll) {
 			_poll();
 		}
+		loaded = true;
 	})
 
 	const draw = () => {
@@ -107,7 +110,9 @@
 	}
 
 	const update = (gamepad) => {
-		Object.keys(controller_config.button_config).forEach(button=>{
+		// console.log(gamepad);
+		
+		Object.keys(controller_config.button_config).forEach(button=>{						
 			state.buttons[controller_config.button_config[button]] = gamepad.buttons[button].value
 		})
 		controller_config.axis_config.forEach(setting=>{
@@ -130,6 +135,7 @@
 		},30)
 	}
 
+	$: if(loaded && gamepad) update(gamepad)
 </script>
 
 <canvas bind:this={canvas}/>

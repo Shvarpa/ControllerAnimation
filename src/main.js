@@ -13,13 +13,24 @@
 
 // export default app;
 
-import X360 from './XboxController.svelte'
+// import X360 from './XboxController.svelte'
 
-const x360 = new X360({
+// const x360 = new X360({
+// 	target: document.body,
+// 	props: {
+
+// 	},
+// });
+
+// export default x360;
+
+import DS4 from './DS4Controller.svelte'
+
+const ds4 = new DS4({
 	target: document.body,
 	props: {
 
 	},
 });
 
-export default x360;
+export default ds4;
