@@ -2,16 +2,16 @@
 	import { onMount } from "svelte"
 	export let controller_icon_src;
 	export let image_config;
-	// console.log(image_config);
-	export let size = undefined;
+	export let size;
+	export let poll = false;
 
 	const maxAlpha = 0.9;
 	const axisRadiusScale = 0.08;
 	const buttonRadiusScale = 0.035;
-	let axisRadius;
-	let buttonRadius;
 	const baseColor = "black";
 
+	let axisRadius;
+	let buttonRadius;
 	let canvas;
 	let ctx;
 	let svg;
@@ -55,7 +55,9 @@
 			}
 			resetDrawing();
 		}
-		poll();
+		if (poll) {
+			_poll();
+		}
 	})
 
 
@@ -176,7 +178,7 @@
 		draw();
 	}
 
-	const poll = () => {
+	const _poll = () => {
 		setInterval(()=>{
 			let g = navigator.getGamepads()
 			let gamepads = [...Array(g.length).keys()].map(i=>g[i])			
