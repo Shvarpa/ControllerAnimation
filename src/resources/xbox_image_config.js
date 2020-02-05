@@ -1,9 +1,9 @@
 export default {
     buttons: {
-        "A": { x:0.7645, y:0.4206, color: "green" },
-        "B": { x:0.835, y:0.3163, color: "red" },
-        "X": { x:0.6935, y:0.3163, color: "blue" },
-        "Y": { x:0.7645, y:0.21, color: "yellow" },
+        "A": { x:0.7645, y:0.4206, color: "rgb(123,187,100)" },
+        "B": { x:0.835, y:0.3163, color: "rgb(213,51,62)" },
+        "X": { x:0.6935, y:0.3163, color: "rgb(32,146,242)" },
+        "Y": { x:0.7645, y:0.21, color: "rgb(234,229,3)" },
         "LEFT_SHOULDER": { x: 0.27, y: 0.06, color:"gray"},
         "RIGHT_SHOULDER": { x: 0.733, y: 0.06, color:"gray"},
         "BACK": { x: 0.429, y: 0.326 },
