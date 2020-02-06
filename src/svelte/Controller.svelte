@@ -15,7 +15,11 @@
 
 	let axisRadius;
 	let buttonRadius;
+
 	let canvas;
+	let height;
+	let width;
+
 	let ctx;
 	let svg;
 	let aspect;
@@ -32,14 +36,15 @@
 	}
 	let loaded = false;
 
-	const resetDrawing = () => {
+	const resetDrawing = () => {		
 		ctx.restore();
-		ctx.clearRect(0, 0, canvas.width, canvas.height)
+		ctx.clearRect(0, 0, width, height)
 		ctx.drawImage(svg,0,0)
 		ctx.save();
 	}
 
-	onMount(()=>{
+	onMount(()=>{	
+		let c = canvas;	
 		ctx = canvas.getContext("2d");
 		svg = new Image();
 		
@@ -51,11 +56,11 @@
 			if(!size) {
 				size = svg.height
 			}
-			canvas.height = size;
-			canvas.width = size * aspect;
-			buttonRadius = canvas.height * buttonRadiusScale
-			axisRadius = canvas.height * axisRadiusScale
-			resetDrawing();
+			c.height = height = size;
+			c.width = width = size * aspect;
+			buttonRadius = height * buttonRadiusScale
+			axisRadius = height * axisRadiusScale
+			resetDrawing();			
 		}
 		if (poll) {
 			_poll();
@@ -92,7 +97,7 @@
 		ctx.globalAlpha = maxAlpha * value
 		ctx.fillStyle = setting.color ? setting.color : baseColor;
 		ctx.beginPath();
-		ctx.ellipse(x*canvas.width,y*canvas.height,buttonRadius,buttonRadius,0,0,Math.PI*2);
+		ctx.ellipse(x*width,y*height,buttonRadius,buttonRadius,0,0,Math.PI*2);
 		ctx.fill();
 		ctx.closePath();
 	}
@@ -102,7 +107,7 @@
 		ctx.globalAlpha = maxAlpha * 0.5
 		ctx.fillStyle = setting.color ? setting.color : baseColor;
 		ctx.beginPath();
-		ctx.ellipse(x*canvas.width+dx*axisRadius,y*canvas.height+dy*axisRadius,buttonRadius,buttonRadius,0,0,Math.PI*2);
+		ctx.ellipse(x*width+dx*axisRadius,y*height+dy*axisRadius,buttonRadius,buttonRadius,0,0,Math.PI*2);
 		// console.log(x*canvas.width+dx*axisRadius,y*canvas.height+dy*axisRadius);
 		
 		ctx.fill();
