@@ -64,12 +64,8 @@
     }
 
     let controller;
-    onMount(()=>{
-        console.log(controller);
-        
-    })
-    export let size = 500;
     
+    export let size = undefined;
 </script>
 
 <Controller bind:this={controller}	controller_icon_src={ds4_svg} image_config={ds4_image_config} {size} {controller_config} poll axisRadiusScale={0.1}/>
