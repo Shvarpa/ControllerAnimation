@@ -1,7 +1,7 @@
 <script>
     import Controller from "./Controller.svelte";
-    import xbox_svg from "./resources/xbox_svg";
-    import xbox_image_config from "./resources/xbox_image_config";
+    import xbox_svg from "../resources/xbox_svg";
+    import xbox_image_config from "../resources/xbox_image_config";
     
 
     export let controller_config = {

@@ -1,7 +1,7 @@
 <script>
     import Controller from "./Controller.svelte";
-    import ds4_svg from "./resources/ds4_svg";
-    import ds4_image_config from "./resources/ds4_image_config";
+    import ds4_svg from "../resources/ds4_svg";
+    import ds4_image_config from "../resources/ds4_image_config";
     import { onMount } from "svelte"
     export let controller_config = {
         button_config: { 
