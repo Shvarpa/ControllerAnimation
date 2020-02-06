@@ -139,9 +139,3 @@
 </script>
 
 <canvas bind:this={canvas}/>
-<button on:click={()=>{draw()}}></button>
-<style>
-	canvas {
-		border: 1px solid black;
-	}
-</style>
