@@ -64,7 +64,8 @@
 
     let controller;
 
-    export let size = undefined;
+	 export let size = undefined;
+	 $: console.log(controller)
 </script>
 
-<Controller bind:this={controller}	controller_icon_src={xbox_svg} image_config={xbox_image_config} {size} {controller_config} poll/>
+<Controller bind:this={controller} controller_icon_src={xbox_svg} image_config={xbox_image_config} {size} {controller_config} poll/>

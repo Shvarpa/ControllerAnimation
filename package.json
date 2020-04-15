@@ -6,13 +6,17 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "rollup -c",
-    "prepare": "yarn build"
+    "prepare": "yarn build",
+    "dev": "concurrently \"rollup -c -w\" \"sirv dist --dev\""
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.0",
     "@rollup/plugin-node-resolve": "^7.0.0",
+    "concurrently": "^5.1.0",
     "rollup": "^1.20.0",
+    "rollup-plugin-livereload": "^1.2.0",
     "rollup-plugin-svelte": "^5.0.3",
+    "sirv-cli": "^0.4.5",
     "svelte": "^3.0.0"
   },
   "keywords": [
