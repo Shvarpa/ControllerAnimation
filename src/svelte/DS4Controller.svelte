@@ -5,9 +5,11 @@
   import { onMount } from "svelte";
   import default_ds4 from "./default_ds4";
 
-  export let controller_config = default_ds4;
+  export let config = undefined;
   export let gamepad = undefined;
   export let size = undefined;
+
+  $: config = config == undefined ? default_ds4 : config;
 </script>
 
 <Controller
@@ -15,6 +17,6 @@
   controller_icon_src={ds4_svg}
   image_config={ds4_image_config}
   {size}
-  {controller_config}
+  controller_config={config}
   axisRadiusScale={0.1} 
   />

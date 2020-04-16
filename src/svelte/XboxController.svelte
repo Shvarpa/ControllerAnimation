@@ -4,9 +4,11 @@
   import xbox_image_config from "../resources/xbox_image_config";
   import default_xbox from "./default_xbox";
 
-  export let controller_config = default_xbox;
+  export let config = undefined;
   export let gamepad = undefined;
   export let size = undefined;
+
+  $: config = config == undefined ? default_xbox : config;
 </script>
 
 <Controller
@@ -14,5 +16,5 @@
   controller_icon_src={xbox_svg}
   image_config={xbox_image_config}
   {size}
-  {controller_config} 
+  controller_config={config} 
   />
