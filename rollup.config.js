@@ -11,7 +11,7 @@ const name = pkg.name
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
-    input: production ? 'src/index.js' : "src/test.js",
+    input: production ? 'src/index.js' : "src/test/test.js",
     output: [
         { file: pkg.module, 'format': 'es' },
         { file: pkg.main, 'format': 'umd', name }
