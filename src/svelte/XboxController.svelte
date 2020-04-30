@@ -7,6 +7,7 @@
   export let config = undefined;
   export let gamepad = undefined;
   export let size = undefined;
+  export let showText = false;
 
   $: config = config == undefined ? default_xbox : config;
 </script>
@@ -16,5 +17,6 @@
   controller_icon_src={xbox_svg}
   image_config={xbox_image_config}
   {size}
-  controller_config={config} 
+  controller_config={config}
+  {showText}
   />

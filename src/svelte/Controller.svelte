@@ -10,6 +10,8 @@
   const maxAlpha = 0.9;
   export let axisRadiusScale = 0.08;
   export let buttonRadiusScale = 0.035;
+  export let showText = false;
+  
   const baseColor = "black";
 
   let axisRadius;
@@ -88,38 +90,51 @@
 
   const drawButton = (setting, value) => {
     value = value ? value : 0;
-    const { x, y } = setting;
+    const { x, y, name } = setting;
+    const bSize = setting.size ? size * setting.size : buttonRadius
     ctx.globalAlpha = maxAlpha * value;
     ctx.fillStyle = setting.color ? setting.color : baseColor;
     ctx.beginPath();
     ctx.ellipse(
       x * width,
       y * height,
-      setting.size ? size * setting.size : buttonRadius,
-      setting.size ? size * setting.size : buttonRadius,
+      bSize,
+      bSize,
       0,
       0,
       Math.PI * 2
     );
     ctx.fill();
     ctx.closePath();
+    if (name && showText) {
+      ctx.fillStyle = "white";
+      ctx.strokeStyle = "black";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.font = `${bSize * 1.2}px serif`;
+      ctx.lineWidth = 4;
+      ctx.strokeText(name, x * width, y * height + 0.1 * bSize * 1.2);
+      // ctx.lineWidth = 3;
+      ctx.fillText(name, x * width, y * height + 0.1 * bSize * 1.2);
+      // ctx.lineWidth = 1;
+    }
   };
 
   const drawDualAxis = (setting, dx, dy) => {
     const { x, y } = setting;
+    const bSize = setting.size ? size * setting.size : buttonRadius
     ctx.globalAlpha = maxAlpha * 0.5;
     ctx.fillStyle = setting.color ? setting.color : baseColor;
     ctx.beginPath();
     ctx.ellipse(
       x * width + dx * width * axisRadiusScale,
       y * height + dy * height * axisRadiusScale,
-      setting.size ? size * setting.size : buttonRadius,
-      setting.size ? size * setting.size : buttonRadius,
+      bSize,
+      bSize,
       0,
       0,
       Math.PI * 2
     );
-    // console.log(x*canvas.width+dx*axisRadius,y*canvas.height+dy*axisRadius);
 
     ctx.fill();
     ctx.closePath();

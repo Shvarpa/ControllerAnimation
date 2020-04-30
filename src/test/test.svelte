@@ -21,8 +21,8 @@
 
 <div class="grid">
   <div class="center">
-    <XboxPicker size="300" on:click={ev=>console.log(ev.detail)}/>
-    <DS4Picker size="300"/>
+    <XboxPicker showText size="300" on:click={ev=>console.log(ev.detail)}/>
+    <DS4Picker showText size="300"/>
   </div>
 </div>
 

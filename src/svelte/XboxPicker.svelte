@@ -4,6 +4,7 @@
   import xbox_image_config from "../resources/xbox_image_config";
 
   export let size = undefined;
+  export let showText = false;
 </script>
 
 <Picker
@@ -11,4 +12,5 @@
   image_config={xbox_image_config}
   detectionScale={1.3}
   {size}
+  {showText}
   on:click />

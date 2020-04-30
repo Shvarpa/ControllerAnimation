@@ -4,6 +4,7 @@
   import ds4_image_config from "../resources/ds4_image_config";
 
   export let size = undefined;
+  export let showText = false;
 </script>
 
 <Picker
@@ -11,5 +12,6 @@
   image_config={ds4_image_config}
   detectionScale={1.2}
   {size}
+  {showText}
   axisRadiusScale={0.1}
   on:click />

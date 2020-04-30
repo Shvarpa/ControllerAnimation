@@ -8,7 +8,8 @@
   export let config = undefined;
   export let gamepad = undefined;
   export let size = undefined;
-
+  export let showText = false;
+  
   $: config = config == undefined ? default_ds4 : config;
 </script>
 
@@ -19,4 +20,5 @@
   {size}
   controller_config={config}
   axisRadiusScale={0.1} 
+  {showText}
   />
