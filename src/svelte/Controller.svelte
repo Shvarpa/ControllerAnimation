@@ -91,7 +91,7 @@
     const { x, y } = setting;
     ctx.globalAlpha = maxAlpha * value;
     ctx.fillStyle = setting.color ? setting.color : baseColor;
-    ctx.beginPath();        
+    ctx.beginPath();
     ctx.ellipse(
       x * width,
       y * height,
@@ -111,8 +111,8 @@
     ctx.fillStyle = setting.color ? setting.color : baseColor;
     ctx.beginPath();
     ctx.ellipse(
-      x * width + dx * axisRadius,
-      y * height + dy * axisRadius,
+      x * width + dx * width * axisRadiusScale,
+      y * height + dy * height * axisRadiusScale,
       setting.size ? size * setting.size : buttonRadius,
       setting.size ? size * setting.size : buttonRadius,
       0,
