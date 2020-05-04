@@ -1,33 +1,31 @@
 <script>
   import XboxController from "../svelte/XboxController.svelte";
   import DS4Controller from "../svelte/DS4Controller.svelte";
-  import XboxPicker from "../svelte/XboxPicker.svelte";
-  import DS4Picker from "../svelte/DS4Picker.svelte";
-  // import poll from "./poll";
+  import poll from "./poll";
 </script>
 
-<!-- {#each $poll as gamepad, index (index)}
+{#each $poll as gamepad, index (index)}
   {#if gamepad}
     {#if index % 2 == 0}
-      <XboxController {gamepad} size={100} />
+      <XboxController picker showText on:click={({detail})=>console.log(detail)} {gamepad} size={500} />
     {:else}
-      <DS4Controller {gamepad} size={100} />
+      <DS4Controller picker {gamepad} size={100} />
     {/if}
     <p>{gamepad.id}</p>
   {:else}
     <p>Not A Gamepad #{index}</p>
   {/if}
-{/each} -->
+{/each}
 
-<div class="grid">
+<!-- <div class="grid">
   <div class="center">
-    <XboxPicker showText size="300" on:click={ev=>console.log(ev.detail)}/>
-    <DS4Picker showText size="300"/>
+    <XboxController picker size="500" showText on:click={ev=>console.log(ev.detail)}/>
+    <DS4Controller picker showText/>
   </div>
-</div>
+</div> -->
 
 <style>
-  .grid {
+  /* .grid {
     display: grid;
     width: 100%;
     height: 100%;
@@ -38,5 +36,5 @@
   }
   .center {
     grid-area: center;
-  }
+  } */
 </style>
