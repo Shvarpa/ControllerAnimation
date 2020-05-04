@@ -217,7 +217,7 @@
   }
 
   let inside = false;
-  $: if (!inside) update(gamepad);
+  $: if (!inside && gamepad) update(gamepad);
 
   //in percentage of axis;
   const inDistance = (x1, y1, x2, y2, d) =>
@@ -225,10 +225,9 @@
 
   const detect = ev => {
     inside = true;
-    const x = (ev.pageX - div.offsetLeft) / width;
-    const y = (ev.pageY - div.offsetTop) / height;
-    // const x = ev.layerX / width;
-    // const y = ev.layerY / height;
+    const { x:divX, y:divY} = div.getBoundingClientRect();
+    const x = (ev.pageX - divX) / width;
+    const y = (ev.pageY - divY) / height;
     state.buttons = Object.fromEntries(
       Object.entries(image_config.buttons || {})
         .filter(([button, setting]) =>

@@ -4,7 +4,7 @@
   import poll from "./poll";
 </script>
 
-{#each $poll as gamepad, index (index)}
+<!-- {#each $poll as gamepad, index (index)}
   {#if gamepad}
     {#if index % 2 == 0}
       <XboxController picker showText on:click={({detail})=>console.log(detail)} {gamepad} size={500} />
@@ -15,14 +15,14 @@
   {:else}
     <p>Not A Gamepad #{index}</p>
   {/if}
-{/each}
+{/each} -->
 
-<!-- <div class="grid">
+<div class="grid">
   <div class="center">
     <XboxController picker size="500" showText on:click={ev=>console.log(ev.detail)}/>
     <DS4Controller picker showText/>
   </div>
-</div> -->
+</div>
 
 <style>
   /* .grid {
