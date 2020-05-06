@@ -226,8 +226,10 @@
   const detect = ev => {
     inside = true;
     const { x:divX, y:divY} = div.getBoundingClientRect();
-    const x = (ev.pageX - divX) / width;
-    const y = (ev.pageY - divY) / height;
+    // const x = (ev.pageX - divX) / width;
+    // const y = (ev.pageY - divY) / height;
+    const x = (ev.clientX - divX) / width;
+    const y = (ev.clientY - divY) / height;
     state.buttons = Object.fromEntries(
       Object.entries(image_config.buttons || {})
         .filter(([button, setting]) =>
