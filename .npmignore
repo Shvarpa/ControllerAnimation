@@ -1,0 +1,7 @@
+/node_modules/
+/public/build/
+.DS_Store
+prettier.config.js
+rollup.config.js
+/public/
+yarn.lock

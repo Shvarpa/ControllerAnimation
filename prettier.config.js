@@ -12,5 +12,5 @@ module.exports = {
 	svelteSortOrder: "scripts-markup-styles",
 	svelteStrictMode: true,
 	svelteBracketNewLine: false,
-	svelteAllowShorthand: false
+	svelteAllowShorthand: true
 };
