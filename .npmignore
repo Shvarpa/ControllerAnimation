@@ -1,5 +1,6 @@
 /node_modules/
 /public/build/
+/src/test/
 .DS_Store
 prettier.config.js
 rollup.config.js
