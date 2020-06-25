@@ -6,14 +6,14 @@
 	import { onMount, createEventDispatcher } from "svelte";
 	const dispatch = createEventDispatcher();
 
-	export let controller_config;
-	export let controller_icon_src;
-	export let image_config;
+	export let controllerConfig;
+	export let controllerIconSrc;
+	export let imageConfig;
 	export let size = undefined;
 	export let gamepad = undefined;
 	export let showText = false;
 	export let showFPS = false;
-
+	export let addons = [];
 	// export let baseWidth;
 	// export let baseHeight;
 	export let axisRadiusScale = 0.08;
@@ -64,7 +64,7 @@
 		btx = background.getContext("2d");
 		svg = new Image();
 
-		svg.src = controller_icon_src;
+		svg.src = controllerIconSrc;
 		svg.onload = () => {
 			// if (!svg.width || !svg.height) {
 			//   svg.naturalWidth = svg.width = baseWidth;
@@ -87,24 +87,26 @@
 	const draw = () => {
 		resetDrawing();
 
-		Object.entries(image_config.buttons).forEach(([button, setting]) => {
+		Object.entries(imageConfig.buttons).forEach(([button, setting]) => {
 			// console.log(`drawing ${button}:${state.buttons[button]}`);
 			drawButton(setting, state.buttons[button]);
 		});
 
 		// Object.entries(state.buttons).forEach(([key,val])=>{
-		// 	drawButton(image_config.buttons[key],val);
+		// 	drawButton(imageConfig.buttons[key],val);
 		// })
 
-		drawDualAxis(image_config.axes.L, state.axes.LX, state.axes.LY);
-		drawDualAxis(image_config.axes.R, state.axes.RX, state.axes.RY);
+		drawDualAxis(imageConfig.axes.L, state.axes.LX, state.axes.LY);
+		drawDualAxis(imageConfig.axes.R, state.axes.RX, state.axes.RY);
 
-		Object.entries(image_config.axes).forEach(([button, setting]) => {
+		Object.entries(imageConfig.axes).forEach(([button, setting]) => {
 			if (button != "L" && button != "R") {
 				// console.log(`drawing ${button}`);
 				drawButton(setting, state.axes[button]);
 			}
 		});
+
+		(addons || []).forEach(how => how(canvas));
 	};
 
 	const drawText = setting => {
@@ -162,7 +164,7 @@
 
 	const update = gamepad => {
 		if (!loaded) return;
-		state = getState(gamepad, controller_config);
+		state = getState(gamepad, controllerConfig);
 		if (state.axes.LY) state.axes.LY *= -1;
 		if (state.axes.RY) state.axes.RY *= -1;
 		draw();
@@ -198,15 +200,20 @@
 		const x = (ev.clientX - divX) / width;
 		const y = (ev.clientY - divY) / height;
 		state.buttons = Object.fromEntries(
-			Object.entries(image_config.buttons || {})
+			Object.entries(imageConfig.buttons || {})
 				.filter(([button, setting]) => inDistance(x, y, setting.x, setting.y, buttonRadiusScale))
 				.map(([button, setting]) => [button, Math.max(0.5, state.buttons[button] || 0)])
 		);
 		state.axes = Object.fromEntries(
-			Object.entries(image_config.axes || {})
+			Object.entries(imageConfig.axes || {})
 				.filter(([axis, setting]) => inDistance(x, y, setting.x, setting.y, axis[1] == "T" ? buttonRadiusScale : axisRadiusScale))
 				.flatMap(([axis, setting]) =>
-					axis[1] == "T" ? [[axis, Math.max(0.5, state.axes[axis] || 0)]] : [[axis + "X", (x - setting.x) / axisRadiusScale], [axis + "Y", (y - setting.y) / (axisRadiusScale * aspect)]]
+					axis[1] == "T"
+						? [[axis, Math.max(0.5, state.axes[axis] || 0)]]
+						: [
+								[axis + "X", (x - setting.x) / axisRadiusScale],
+								[axis + "Y", (y - setting.y) / (axisRadiusScale * aspect)]
+						  ]
 				)
 		);
 		draw();

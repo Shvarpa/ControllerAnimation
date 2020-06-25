@@ -14,7 +14,7 @@ export default {
 		"DPAD_DOWN": { x: 0.367, y: 0.645 },
 		"DPAD_LEFT": { x: 0.292, y: 0.547 },
 		"DPAD_RIGHT": { x: 0.44, y: 0.547 },
-		"GUIDE": { x: 0.4995, y: 0.159, size: 0.05, name: "X" }
+		"GUIDE": { x: 0.4995, y: 0.159, size: 0.05, name: "X" },
 	},
 	axes: {
 		"L": { x: 0.228, y: 0.3175 },

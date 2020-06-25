@@ -7,8 +7,8 @@
 {#each $poll as gamepad, index (index)}
 	{#if gamepad}
 		{#if index % 2 == 0}
-			<XboxController picker showText on:click="{({ detail }) => console.log(detail)}" {gamepad} size="{500}" />
-			<DS4Controller picker showText on:click="{({ detail }) => console.log(detail)}" {gamepad} size="{500}" />
+			<XboxController picker showText on:click="{({ detail }) => console.log(detail)}" {gamepad} size="{600}" />
+			<DS4Controller picker showText on:click="{({ detail }) => console.log(detail)}" {gamepad} size="{200}" />
 		{:else}
 			<DS4Controller picker {gamepad} size="{100}" />
 		{/if}
